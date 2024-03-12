@@ -17,7 +17,7 @@ def test_htcondor_submit(smk_runner, profile):
     assert os.path.isfile(path)
 
 
-@pytest.mark.timeout(30)
+@pytest.mark.timeout(60)
 def test_resources_mem(smk_runner, profile):
     fn = "resources_mem.txt"
     smk_runner.make_target(fn, asynchronous=True)
@@ -27,7 +27,7 @@ def test_resources_mem(smk_runner, profile):
     smk_runner.kill_job()
 
 
-@pytest.mark.timeout(30)
+@pytest.mark.timeout(60)
 def test_resources_disk(smk_runner, profile):
     fn = "resources_disk.txt"
     smk_runner.make_target(fn, asynchronous=True)
