@@ -72,5 +72,5 @@ fi
 
 # Add htcondor to snakemake
 CONTAINER=$(docker ps | grep cookiecutter-htcondor_snakemake | awk '{print $1}')
-docker exec ${CONTAINER} "/bin/ldd --version'"
+docker exec ${CONTAINER} "/opt/local/bin/ldd --version'"
 docker exec ${CONTAINER} pip install htcondor
