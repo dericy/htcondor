@@ -52,7 +52,7 @@ jobs:
           DOCKER_COMPOSE: ${{ env.DOCKER_COMPOSE }}
           SNAKEMAKE_IMAGE: ${{ env.SNAKEMAKE_IMAGE }}
           HTCONDOR_IMAGE: ${{ env.HTCONDOR_IMAGE }}
-        run: ./tests/deploystack.sh
+        run: ./tests/deploystack.sh && CONTAINER=$(podman ps | grep cookiecutter-htcondor_snakemake | awk '{print $1}') podman exec $CONTAINER ldd --version
 
       - if: steps.cache-images.outputs.cache-hit != 'true'
         run: docker save -o ~/image-cache/snakemake.tar ${{ env.SNAKEMAKE_IMAGE }}
