@@ -7,7 +7,7 @@ DOCKER_COMPOSE=${DOCKER_COMPOSE:=docker-compose.yaml}
 
 # Images
 SNAKEMAKE_IMAGE=${SNAKEMAKE_IMAGE:=quay.io/biocontainers/snakemake:7.32.4--hdfd78af_1}
-HTCONDORIMAGE=${HTCONDORIMAGE:=docker.io/htcondor/mini:23.0-el8}
+HTCONDORIMAGE=${HTCONDORIMAGE:=htcondor/mini:23.0-el8}
 
 docker pull $SNAKEMAKE_IMAGE
 docker pull $HTCONDORIMAGE
@@ -56,7 +56,7 @@ docker service ps $HTCONDOR_SERVICE --format "{{.CurrentState}}" 2>/dev/null | g
 service_up=$?
 
 if [ $service_up -eq 1 ]; then
-    docker play kube $DOCKER_COMPOSE;
+    docker stack deploy --with-registry-auth -c $DOCKER_COMPOSE $STACK_NAME;
 fi
 
 service_up $HTCONDOR_SERVICE
@@ -72,4 +72,4 @@ fi
 
 # Add htcondor to snakemake
 CONTAINER=$(docker ps | grep cookiecutter-htcondor_snakemake | awk '{print $1}')
-docker exec $CONTAINER 'pip install htcondor && ldd --version'
+docker exec $CONTAINER pip install htcondor
